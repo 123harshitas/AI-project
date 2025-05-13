@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIF Generator Prototype</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-center">GIF Generator</h1>
+    <div class="mb-4">
+      <label for="theme" class="block text-sm font-medium text-gray-700">GIF Theme Prompt</label>
+      <input type="text" id="theme" placeholder="e.g., Funny moments" class="mt-1 block w-full p-2 border rounded-md">
+    </div>
+    <div class="mb-4">
+      <label for="youtube" class="block text-sm font-medium text-gray-700">YouTube Link</label>
+      <input type="url" id="youtube" placeholder="e.g., https://youtube.com/watch?v=..." class="mt-1 block w-full p-2 border rounded-md">
+    </div>
+    <div class="mb-4">
+      <label for="video" class="block text-sm font-medium text-gray-700">Upload Video</label>
+      <input type="file" id="video" accept="video/*" class="mt-1 block w-full p-2 border rounded-md">
+    </div>
+    <button onclick="generateGIFs()" class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">Generate GIFs</button>
+    <div id="output" class="mt-4"></div>
+  </div>
+
+  <script>
+    function generateGIFs() {
+      const theme = document.getElementById('theme').value;
+      const youtube = document.getElementById('youtube').value;
+      const video = document.getElementById('video').files[0];
+      const output = document.getElementById('output');
+
+      if (!theme) {
+        output.innerHTML = '<p class="text-red-500">Please enter a GIF theme prompt.</p>';
+        return;
+      }
+
+      if (!youtube && !video) {
+        output.innerHTML = '<p class="text-red-500">Please provide a YouTube link or upload a video.</p>';
+        return;
+      }
+
+      output.innerHTML = '<p class="text-gray-500">Generating GIFs...</p>';
+
+      // Simulated backend processing
+      setTimeout(() => {
+        const gifs = simulateGIFGeneration(theme, youtube || video.name);
+        output.innerHTML = gifs.map(gif => `
+          <div class="mb-4">
+            <p class="font-medium">${gif.caption}</p>
+            <div class="bg-gray-200 h-32 flex items-center justify-center">GIF Placeholder: ${gif.caption}</div>
+          </div>
+        `).join('');
+      }, 1000);
+    }
+
+    function simulateGIFGeneration(theme, source) {
+      // Simulated logic to generate GIFs based on theme and source
+      return [
+        { caption: `${theme} - Moment 1 from ${source}` },
+        { caption: `${theme} - Moment 2 from ${source}` },
+        { caption: `${theme} - Moment 3 from ${source}` }
+      ];
+    }
+  </script>
+</body>
+</html>
